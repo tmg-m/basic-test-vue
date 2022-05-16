@@ -1,6 +1,9 @@
 <script>
+import Vmodel from "../components/V-model.vue";
+import Vbind from "../components/V-bind.vue";
 import ChildParent from "../components/ChildParent.vue";
 import ChildParent2 from "../components/ChildParent2.vue";
+import ChildParent3 from "../components/ChildParent3.vue";
 export default {
   setup() {
     let dbData = [
@@ -17,17 +20,25 @@ export default {
     return {
       dbNames: this.dbData,
       parentName: "Brad",
+      parent3: "Parent BIlly"
     };
   },
   components: {
-      ChildParent,
-      ChildParent2,
+    Vmodel,
+    Vbind,
+    ChildParent,
+    ChildParent2,
+    ChildParent3,
   },
   methods: {
-       logChange: function (inputFromChild) {
-           this.parentName = inputFromChild
-       },
-  }
+    logChange (inputFromChild) {
+      this.parentName = inputFromChild;
+    },
+    
+    changeParentName (inputFromChild) {
+      this.parent3 = inputFromChild;
+    }
+  },
 };
 </script>
 
@@ -44,11 +55,30 @@ export default {
     </div>
 
     <div class="space-div">
+      <h2>v-model "1 way"</h2>
+      <hr />
+      <div>
+        <Vmodel />
+      </div>
+    </div>
+
+    <div class="space-div">
+      <h2>v-bind "2 way"</h2>
+      <hr />
+      <div>
+        <Vbind />
+      </div>
+    </div>
+
+    <div class="space-div">
       <h2>Child to Parent with props "with $emit"</h2>
       <hr />
       <div>
-        <h2>{{ parentName }} <span style="color: green; fontSize: 16px;">" from parrent "</span></h2>
-        <ChildParent :nameParent="parentName" @changeTitle="logChange"/>
+        <h2>
+          {{ parentName }}
+          <span style="color: green; fontsize: 16px">" from parrent "</span>
+        </h2>
+        <ChildParent :nameParent="parentName" @changeTitle="logChange" />
       </div>
     </div>
 
@@ -56,8 +86,23 @@ export default {
       <h2>Child to Parent with props "with $emit with Method"</h2>
       <hr />
       <div>
-        <h2>{{ parentName }} <span style="color: green; fontSize: 16px;">" from parrent "</span></h2>
-        <ChildParent2 :nameParent="parentName" @changeTitle="logChange"/>
+        <h2>
+          {{ parentName }}
+          <span style="color: green; fontsize: 16px">" from parrent "</span>
+        </h2>
+        <ChildParent2 :nameParent="parentName" @changeTitle="logChange" />
+      </div>
+    </div>
+
+    <div class="space-div">
+      <h2>Child to Parent with props "with props and method 'v-model and input' "</h2>
+      <hr />
+      <div>
+        <h2>
+          {{ parent3 }}
+          <span style="color: green; fontsize: 16px">" from parrent "</span>
+        </h2>
+        <ChildParent3 :nameParent="parent3" :changeParentName="changeParentName" />
       </div>
     </div>
   </section>
@@ -76,8 +121,8 @@ export default {
     padding: 20px;
   }
   .column {
-      display: flex;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>
